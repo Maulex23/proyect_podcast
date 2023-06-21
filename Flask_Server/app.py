@@ -1,6 +1,8 @@
+import base64
 from flask import Flask, request
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
+from cryptography.fernet import Fernet
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
@@ -17,15 +19,25 @@ service = build("sheets", "v4", credentials=credentials)
 
 # define a Flask route that stores data in a Google Sheet
 
+
 @app.route("/store_data", methods=["POST"])
 def store_data():
     # specify the Google Sheet ID and range to write to
     sheet_id = "1_liLZifZfL7_mOkWW1dVGdQ-PmrEk4VuGiNYdW_xAEM"
-    range_name = "Database!A2:C"
+    range_name = "Database!A2:D"
 
     # get the data from the request body as a JSON object
     data = request.get_json()
-    
+
+    # Generate a random 32-byte key using Fernet
+    key = Fernet.generate_key()
+
+    # Encode the key using base64
+    key_b64 = base64.urlsafe_b64encode(key)
+
+    # Create a Fernet instance with the encoded key
+    fernet = Fernet(key)
+
     # create a set of unique email addresses from the incoming request
     new_emails = set()
     rows = []
@@ -33,7 +45,10 @@ def store_data():
         email = item["email"]
         if email not in new_emails:
             new_emails.add(email)
-            rows.append([email, item["password"], item["created_at"]])
+            password_bytes = item["password"].encode('utf-8')
+            encrypted_password = fernet.encrypt(password_bytes)
+            rows.append([email, encrypted_password.decode('utf-8'),
+                        item["created_at"], key_b64.decode('utf-8')])
 
     sent_data = rows.copy()
 
@@ -46,9 +61,9 @@ def store_data():
     # check for duplicate email addresses in the existing data and append new rows for unique email addresses
     existing_data = result.get("values", [])
     for row in existing_data:
-        email =  row[0]
+        email = row[0]
         if email == sent_data[0][0]:
-            return "No new data to store in Google Sheet" 
+            return "No new data to store in Google Sheet"
 
     # find the last row in the sheet and append the new data to it
     write_result = service.spreadsheets().values().append(
