@@ -1,12 +1,17 @@
-import base64
+import json
 from flask import Flask, request
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
-from cryptography.fernet import Fernet
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
 
 app = Flask(__name__)
+
+# Load the JSON file containing the API key
+with open('credentials.json') as f:
+    credentials_json = json.load(f)
+
+# Extract the API key from the JSON data
+api_key = credentials_json['private_key']
+print(api_key)
 
 # load the Service Account credentials from a JSON file
 credentials = service_account.Credentials.from_service_account_file(
@@ -24,19 +29,10 @@ service = build("sheets", "v4", credentials=credentials)
 def store_data():
     # specify the Google Sheet ID and range to write to
     sheet_id = "1_liLZifZfL7_mOkWW1dVGdQ-PmrEk4VuGiNYdW_xAEM"
-    range_name = "Database!A2:D"
+    range_name = "Database!A2:C"
 
     # get the data from the request body as a JSON object
     data = request.get_json()
-
-    # Generate a random 32-byte key using Fernet
-    key = Fernet.generate_key()
-
-    # Encode the key using base64
-    key_b64 = base64.urlsafe_b64encode(key)
-
-    # Create a Fernet instance with the encoded key
-    fernet = Fernet(key)
 
     # create a set of unique email addresses from the incoming request
     new_emails = set()
@@ -45,10 +41,7 @@ def store_data():
         email = item["email"]
         if email not in new_emails:
             new_emails.add(email)
-            password_bytes = item["password"].encode('utf-8')
-            encrypted_password = fernet.encrypt(password_bytes)
-            rows.append([email, encrypted_password.decode('utf-8'),
-                        item["created_at"], key_b64.decode('utf-8')])
+            rows.append([email, item["name"], item["created_at"]])
 
     sent_data = rows.copy()
 
@@ -74,30 +67,52 @@ def store_data():
         body={"values": sent_data},
     ).execute()
 
-    print(write_result)
-
     # return a response indicating success or failure
     if len(write_result["updates"]) > 0:
         return "Data stored in Google Sheet successfully"
     else:
         return "Failed to store data in Google Sheet"
 
-# define a handler to restart the Flask application when changes are detected in the Python file
 
+@app.route('/check_user', methods=['POST'])
+def check_user():
+    # Get the JSON data from the request body
+    data = request.get_json()
 
-class RestartHandler(FileSystemEventHandler):
-    def on_any_event(self, event):
-        if event.src_path.endswith(".py"):
-            print("Restarting Flask application...")
-            observer.stop()
-            app.run()
+    # Extract the email and password from the JSON data
+    for item in data:
+        sent_email = item["email"]
+
+    # Call the Google Sheets API to get the data for the specified email
+    sheet_id = '1_liLZifZfL7_mOkWW1dVGdQ-PmrEk4VuGiNYdW_xAEM'
+    range_name = 'Database!A2:C'
+    result = service.spreadsheets().values().get(
+        spreadsheetId=sheet_id,
+        range=range_name,
+        valueRenderOption='FORMATTED_VALUE',
+        dateTimeRenderOption='FORMATTED_STRING',
+        majorDimension='ROWS',
+    ).execute()
+
+    print(result)
+
+    # Check if the email exists in the sheet
+    existing_data = result.get('values', [])
+    if len(existing_data) == 0:
+        return 'Email not found', 404
+
+    # Check if the email is correct
+    is_found = False
+    for item in existing_data:
+        email = item[0]
+        if email == sent_email:
+            is_found = True
+    if is_found is True:
+        return str(is_found)
+    else:
+        return str(is_found), 404
 
 
 if __name__ == "__main__":
-    # start the watchdog observer to monitor the Python file for changes
-    observer = Observer()
-    observer.schedule(RestartHandler(), ".", recursive=True)
-    observer.start()
-
     # start the Flask application
-    app.run()
+    app.run(debug=True)
