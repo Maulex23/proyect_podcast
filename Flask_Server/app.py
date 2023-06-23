@@ -94,8 +94,6 @@ def check_user():
         majorDimension='ROWS',
     ).execute()
 
-    print(result)
-
     # Check if the email exists in the sheet
     existing_data = result.get('values', [])
     if len(existing_data) == 0:
