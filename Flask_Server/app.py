@@ -1,6 +1,4 @@
 import json
-import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
 from flask import Flask, request, redirect
 import requests
 from google.oauth2 import service_account
