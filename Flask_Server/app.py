@@ -1,4 +1,7 @@
 import json
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+from flask import Flask, request, redirect
 from flask import Flask, request
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -12,6 +15,12 @@ with open('credentials.json') as f:
 # Extract the API key from the JSON data
 api_key = credentials_json['private_key']
 print(api_key)
+
+#create a Spotify API client
+client_id = "adc21c51f9d843588ef2704daa1c67a4"
+client_secret = "a47d6c8b19cb4cea968cef42f7f282a5"
+redirect_uri = "http://127.0.0.1:5000/callback"
+
 
 # load the Service Account credentials from a JSON file
 credentials = service_account.Credentials.from_service_account_file(
@@ -109,6 +118,21 @@ def check_user():
         return str(is_found)
     else:
         return str(is_found), 404
+
+#Path to authenticate with Spotify API
+@app.route("/loginspotify")
+def loginspotify():
+    scope = "user-library-read"
+    auth_url = f"https://accounts.spotify.com/authorize?response_type=code&client_id={client_id}&scope={scope}&redirect_uri={redirect_uri}"
+    return redirect(auth_url)
+
+# Path to handle authentication callback
+@app.route("/callback")
+def callback():
+    client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+    spotify = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+    results = spotify.album("43S3zJKHzTnTkq0gc9CbIB")
+    return results
 
 
 if __name__ == "__main__":
