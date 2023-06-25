@@ -1,0 +1,106 @@
+
+
+body{
+
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: #000000;
+  height: 100vh;    
+  
+}
+.box{
+  
+  position: relative;
+  width: 300px;
+  padding: 40px;
+  background: #000000;
+  font-family: "Raleway", sans-serif;
+  
+
+}
+
+.box h2{
+     
+  position: absolute;
+  
+  top: -10%;
+  right: 9%;
+  color: #d8d2d2;
+  text-decoration: none;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+
+  white-space: nowrap;    
+  margin-bottom: 20%;   
+  
+}
+
+.box h3{
+     
+  position: absolute;
+  font-size: 32px;
+  top: -10%;
+  left: 25%;
+  color: #d8d2d2;
+  text-decoration: none;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+
+  white-space: nowrap;    
+  margin-bottom: 20%;   
+  
+}
+.box input[type = "text"],.box input[type="password"]{
+  border: 0;
+  background: none;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  border: 2px solid #00e2ff;
+  padding: 14px 10px;
+  width: 200px;
+  outline: none;
+  color: rgb(0, 0, 0);
+  border-radius: 24px;
+  transition: 0.25s;
+  background-color: rgb(255, 255, 255);
+  font-family: 'Raleway', sans-serif;
+  letter-spacing: 1px;
+  font-size: clamp(0.9rem, 0.9em, 0.9em);
+  font-weight: bold;
+}
+.box input[type = "text"]:focus,.box input[type="password"]:focus{
+  width: 220px;
+  border-color: #33ff8c;
+    
+}
+.box input[type="submit"]{
+  border: 0;
+  background: none;
+  font-family: 'Raleway', sans-serif;
+  letter-spacing: 1.5px;
+  text-align: center;
+  font-weight: bold;
+  display: block;
+  margin: 20px auto;
+  border: 2px solid #33ff8c;
+  padding: 14px 40px;
+  outline: none;
+  color: rgb(255, 255, 255);
+  border-radius: 24px;
+  transition: 0.25s;
+  cursor: pointer;
+  margin-top: 30%;
+}
+.box input[type="submit"]:focus{
+    cursor:pointer;
+    background-color: #33ff8c;
+    box-shadow: 0 0 5px #33ff8c, 0 0 20px #33ff8c
+} 
+.box input[type="submit"]:hover{
+      cursor:pointer;
+      background-color: #33ff8c;
+      box-shadow: 0 0 5px #33ff8c, 0 0 20px #33ff8c
+} 
+
