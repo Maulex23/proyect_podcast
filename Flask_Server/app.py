@@ -1,10 +1,12 @@
 import json
-from flask import Flask, request, redirect
 import requests
+from flask_cors import CORS
+from flask import Flask, request, redirect, jsonify
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": ["http://127.0.0.1:5173"]}})
 
 # Load the JSON file containing the API key
 with open('credentials.json') as f:
@@ -14,7 +16,7 @@ with open('credentials.json') as f:
 api_key = credentials_json['private_key']
 print(api_key)
 
-#create a Spotify API client
+# create a Spotify API client
 client_id = "adc21c51f9d843588ef2704daa1c67a4"
 client_secret = "a47d6c8b19cb4cea968cef42f7f282a5"
 redirect_uri = "http://127.0.0.1:5000/callback"
@@ -87,8 +89,7 @@ def check_user():
     data = request.get_json()
 
     # Extract the email and password from the JSON data
-    for item in data:
-        sent_email = item["email"]
+    sent_email = data["email"]
 
     # Call the Google Sheets API to get the data for the specified email
     sheet_id = '1_liLZifZfL7_mOkWW1dVGdQ-PmrEk4VuGiNYdW_xAEM'
@@ -113,11 +114,13 @@ def check_user():
         if email == sent_email:
             is_found = True
     if is_found is True:
-        return str(is_found)
+        return jsonify({"status": True})
     else:
-        return str(is_found), 404
+        return jsonify({"status": False}), 404
 
-#Path to authenticate with Spotify API
+# Path to authenticate with Spotify API
+
+
 @app.route("/loginspotify")
 def loginspotify():
     scope = "user-library-read"
@@ -125,9 +128,11 @@ def loginspotify():
     return redirect(auth_url)
 
 # Path to handle authentication callback
+
+
 @app.route("/callback")
 def callback():
-    #Spotify api token validation
+    # Spotify api token validation
     code = request.args.get("code")
     auth_token_url = "https://accounts.spotify.com/api/token"
     data = {
@@ -141,8 +146,8 @@ def callback():
     response_data = response.json()
     access_token = response_data["access_token"]
 
-    #Request to spotify api
-    podcast_id  = "43S3zJKHzTnTkq0gc9CbIB"
+    # Request to spotify api
+    podcast_id = "43S3zJKHzTnTkq0gc9CbIB"
     url = f"https://api.spotify.com/v1/albums/{podcast_id}"
     headers = {
         "Authorization": f"Bearer {access_token}"
