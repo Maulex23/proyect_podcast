@@ -53,7 +53,7 @@ def store_data():
     for row in existing_data:
         email = row[0]
         if email == data["email"]:
-            return "No new data to store in Google Sheet"
+            return jsonify({"status": False})
 
     # create a list of rows to append to the sheet
     new_row = [data["email"], data["name"], data["created_at"]]
@@ -70,9 +70,9 @@ def store_data():
 
     # return a response indicating success or failure
     if len(write_result["updates"]) > 0:
-        return "Data stored in Google Sheet successfully"
+        return jsonify({"status": True})
     else:
-        return "Failed to store data in Google Sheet"
+        return jsonify({"status": False}), 404
 
 
 @app.route('/check_user', methods=['POST'])
@@ -97,7 +97,7 @@ def check_user():
     # Check if the email exists in the sheet
     existing_data = result.get('values', [])
     if len(existing_data) == 0:
-        return 'Email not found', 404
+        return jsonify({"status": False}), 404
 
     # Check if the email is correct
     is_found = False

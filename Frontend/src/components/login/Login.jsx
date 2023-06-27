@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./login.css";
 
 const Login = () => {
@@ -8,13 +8,11 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const URL = "http://127.0.0.1:5000/check_user";
-    setEmail((prevEmail) => ({ ...prevEmail }));
     const request = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(email),
     };
-    console.log(request);
     fetch(URL, request)
       .then((response) => response.json())
       .then((data) => (data.status ? setIsAuth(true) : setIsAuth(false)))
