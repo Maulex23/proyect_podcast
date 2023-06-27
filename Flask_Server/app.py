@@ -14,7 +14,6 @@ with open('credentials.json') as f:
 
 # Extract the API key from the JSON data
 api_key = credentials_json['private_key']
-print(api_key)
 
 # create a Spotify API client
 client_id = "adc21c51f9d843588ef2704daa1c67a4"
@@ -43,17 +42,6 @@ def store_data():
     # get the data from the request body as a JSON object
     data = request.get_json()
 
-    # create a set of unique email addresses from the incoming request
-    new_emails = set()
-    rows = []
-    for item in data:
-        email = item["email"]
-        if email not in new_emails:
-            new_emails.add(email)
-            rows.append([email, item["name"], item["created_at"]])
-
-    sent_data = rows.copy()
-
     # call the Google Sheets API to get the existing data in the sheet
     result = service.spreadsheets().values().get(
         spreadsheetId=sheet_id,
@@ -64,8 +52,12 @@ def store_data():
     existing_data = result.get("values", [])
     for row in existing_data:
         email = row[0]
-        if email == sent_data[0][0]:
+        if email == data["email"]:
             return "No new data to store in Google Sheet"
+
+    # create a list of rows to append to the sheet
+    new_row = [data["email"], data["name"], data["created_at"]]
+    rows = [new_row]
 
     # find the last row in the sheet and append the new data to it
     write_result = service.spreadsheets().values().append(
@@ -73,7 +65,7 @@ def store_data():
         range=range_name,
         valueInputOption="USER_ENTERED",
         insertDataOption="INSERT_ROWS",
-        body={"values": sent_data},
+        body={"values": rows},
     ).execute()
 
     # return a response indicating success or failure
