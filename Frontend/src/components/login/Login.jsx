@@ -3,11 +3,11 @@ import "./login.css";
 
 const Login = () => {
   const [email, setEmail] = useState({ email: null });
+  const [isAuth, setIsAuth] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const URL = "http://127.0.0.1:5000/check_user";
-    const fecha = new Date();
     setEmail((prevEmail) => ({ ...prevEmail }));
     const request = {
       method: "POST",
@@ -17,7 +17,7 @@ const Login = () => {
     console.log(request);
     fetch(URL, request)
       .then((response) => response.json())
-      .then((data) => console.log(data.status))
+      .then((data) => (data.status ? setIsAuth(true) : setIsAuth(false)))
       .catch((error) => console.error(error));
   };
 
