@@ -13,4 +13,11 @@
 .read-the-docs {
   color: #888;
 }
+.Page{
+  position:static ;
+  display:flex ;
+  flex-direction: row;
+  margin: 0 auto;
+
+}
 

@@ -3,7 +3,7 @@
     font-family: "Raleway", sans-serif;
     font-weight: Light Roman;
 
-    font-size: clamp(1rem, 1.5vw, 1.5em);
+    font-size: 25px;
 }
 /* Aurora tema  */
 
@@ -16,17 +16,19 @@
   --clr-4: #e54cff; 
 
   --blur: 1rem;
-  --fs: clamp(2rem, 4vw, 4rem);
+  --fs: 60px;
   --ls: clamp(-1.75px, -0.25vw, -3.5px);
 }
 
 body {
   min-height: 100vh;
   display: grid;
-  place-items: top;
   background-color: #000000;
   color: #fff;
   font-family: "Inter", "DM Sans", Arial, sans-serif;
+
+
+  overflow: hidden;
 }
 
 *,
@@ -37,24 +39,35 @@ body {
 }
 
 .content {
+  position: absolute;
+  bottom: -700px;
+  left: 0;
   text-align: center;
-  position: inherit;
-   
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   
 }
 
 .title {
+  box-sizing: border-box;
+  width: 70%;
+  margin:auto;
+  position: relative;
   font-size: var(--fs);
   font-weight: 600;
   letter-spacing: var(--ls);
-  position: relative;
   overflow: hidden;
   background: var(--bg);
   margin: 0;
+  align-items: center;
+  justify-content: center;
 }
 
 
 .aurora {
+  
   position: absolute;
   left: 0;
   width: 100%;
@@ -244,10 +257,11 @@ body {
 
     .logo{
       
-      position: absolute;
-      bottom: 0;
-      left: 65%;
-
+      position: relative;
+      top: -600px;
+      left:800px;
+      display: flexbox;
+      overflow: hidden; 
       
 
 
