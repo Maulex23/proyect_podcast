@@ -12,7 +12,7 @@ CORS(app, resources={r"/*": {"origins": ["http://127.0.0.1:5173"]}})
 with open('credentials.json') as f:
     credentials_json = json.load(f)
 
-# Extract the API key from the JSON data
+# Extract the API key from the JSON dataenv\Scripts\activate.bat 
 api_key = credentials_json['private_key']
 
 # create a Spotify API client
