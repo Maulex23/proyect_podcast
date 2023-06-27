@@ -6,10 +6,9 @@ const Header = () => {
     <nav>
       <a href="#">INICIO</a>
       <a href="/Login">INICIO SESIÓN</a>
-      <a href="#">RESEÑAS</a>
+      <a href="/Review">RESEÑAS</a>
       <div id="indicator"></div>
     </nav>
   );
 };
-
 export default Header;
