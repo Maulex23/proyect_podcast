@@ -5,7 +5,7 @@ const Registro = () => {
     <body>
       <form class="box">
         <h3>Registro</h3>
-        <input placeholder="Email" type="text" />
+        <input placeholder="Email" type="email" />
         <input placeholder="Nombre" type="text" />
         <input value="Suscribirte" type="submit" />
         <a href="/Login">Iniciar Sesión</a>

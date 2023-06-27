@@ -70,7 +70,7 @@ body{
   font-size: clamp(0.9rem, 0.9em, 0.9em);
   font-weight: bold;
 }
-.box input[type = "text"]:focus,.box input[type="password"]:focus{
+.box input[type = "text"]:focus,.box input[type="email"]:focus{
   width: 220px;
   border-color: #33ff8c;
     
