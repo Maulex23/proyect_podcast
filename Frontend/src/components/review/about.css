@@ -1,9 +1,20 @@
 body {
-    min-height: 100vh;
-    display: grid;
-    /* place-items: top; */
-    background-color: #000000;
-    color: #fff;
-    font-family: "Inter", "DM Sans", Arial, sans-serif;
-  }
-  
+  min-height: 100vh;
+  display: grid;
+  /* place-items: top; */
+  background-color: #000000;
+  color: #fff;
+  font-family: "Inter", "DM Sans", Arial, sans-serif;
+}
+
+
+.wrapper {
+  width: 100%;
+  padding-top: 20px;
+}
+
+
+h4 {
+  width: 90%;
+  margin: 0px auto;
+}
