@@ -1,20 +1,21 @@
 import json
-from flask import Flask, request, redirect
 import requests
+from flask_cors import CORS
+from flask import Flask, request, redirect, jsonify
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": ["http://127.0.0.1:5173"]}})
 
 # Load the JSON file containing the API key
 with open('credentials.json') as f:
     credentials_json = json.load(f)
 
-# Extract the API key from the JSON data
+# Extract the API key from the JSON dataenv\Scripts\activate.bat 
 api_key = credentials_json['private_key']
-print(api_key)
 
-#create a Spotify API client
+# create a Spotify API client
 client_id = "adc21c51f9d843588ef2704daa1c67a4"
 client_secret = "a47d6c8b19cb4cea968cef42f7f282a5"
 redirect_uri = "http://127.0.0.1:5000/callback"
@@ -41,17 +42,6 @@ def store_data():
     # get the data from the request body as a JSON object
     data = request.get_json()
 
-    # create a set of unique email addresses from the incoming request
-    new_emails = set()
-    rows = []
-    for item in data:
-        email = item["email"]
-        if email not in new_emails:
-            new_emails.add(email)
-            rows.append([email, item["name"], item["created_at"]])
-
-    sent_data = rows.copy()
-
     # call the Google Sheets API to get the existing data in the sheet
     result = service.spreadsheets().values().get(
         spreadsheetId=sheet_id,
@@ -62,8 +52,12 @@ def store_data():
     existing_data = result.get("values", [])
     for row in existing_data:
         email = row[0]
-        if email == sent_data[0][0]:
-            return "No new data to store in Google Sheet"
+        if email == data["email"]:
+            return jsonify({"status": False})
+
+    # create a list of rows to append to the sheet
+    new_row = [data["email"], data["name"], data["created_at"]]
+    rows = [new_row]
 
     # find the last row in the sheet and append the new data to it
     write_result = service.spreadsheets().values().append(
@@ -71,14 +65,14 @@ def store_data():
         range=range_name,
         valueInputOption="USER_ENTERED",
         insertDataOption="INSERT_ROWS",
-        body={"values": sent_data},
+        body={"values": rows},
     ).execute()
 
     # return a response indicating success or failure
     if len(write_result["updates"]) > 0:
-        return "Data stored in Google Sheet successfully"
+        return jsonify({"status": True})
     else:
-        return "Failed to store data in Google Sheet"
+        return jsonify({"status": False}), 404
 
 
 @app.route('/check_user', methods=['POST'])
@@ -87,8 +81,7 @@ def check_user():
     data = request.get_json()
 
     # Extract the email and password from the JSON data
-    for item in data:
-        sent_email = item["email"]
+    sent_email = data["email"]
 
     # Call the Google Sheets API to get the data for the specified email
     sheet_id = '1_liLZifZfL7_mOkWW1dVGdQ-PmrEk4VuGiNYdW_xAEM'
@@ -104,7 +97,7 @@ def check_user():
     # Check if the email exists in the sheet
     existing_data = result.get('values', [])
     if len(existing_data) == 0:
-        return 'Email not found', 404
+        return jsonify({"status": False}), 404
 
     # Check if the email is correct
     is_found = False
@@ -113,11 +106,13 @@ def check_user():
         if email == sent_email:
             is_found = True
     if is_found is True:
-        return str(is_found)
+        return jsonify({"status": True})
     else:
-        return str(is_found), 404
+        return jsonify({"status": False}), 404
 
-#Path to authenticate with Spotify API
+# Path to authenticate with Spotify API
+
+
 @app.route("/loginspotify")
 def loginspotify():
     scope = "user-library-read"
@@ -125,9 +120,11 @@ def loginspotify():
     return redirect(auth_url)
 
 # Path to handle authentication callback
+
+
 @app.route("/callback")
 def callback():
-    #Spotify api token validation
+    # Spotify api token validation
     code = request.args.get("code")
     auth_token_url = "https://accounts.spotify.com/api/token"
     data = {
@@ -141,8 +138,8 @@ def callback():
     response_data = response.json()
     access_token = response_data["access_token"]
 
-    #Request to spotify api
-    podcast_id  = "43S3zJKHzTnTkq0gc9CbIB"
+    # Request to spotify api
+    podcast_id = "43S3zJKHzTnTkq0gc9CbIB"
     url = f"https://api.spotify.com/v1/albums/{podcast_id}"
     headers = {
         "Authorization": f"Bearer {access_token}"

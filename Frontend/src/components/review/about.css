@@ -1,0 +1,9 @@
+body {
+    min-height: 100vh;
+    display: grid;
+    /* place-items: top; */
+    background-color: #000000;
+    color: #fff;
+    font-family: "Inter", "DM Sans", Arial, sans-serif;
+  }
+  

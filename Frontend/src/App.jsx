@@ -1,10 +1,10 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/header/Header'
 import Home from './components/home/Home'
 import Registro from './components/Registro/Registro'
-import About from './components/about/About'
+import About from './components/review/Review'
 import Login from './components/login/Login'
 // import { Router, Switch } from 'react-router-dom/cjs/react-router-dom.min'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -25,6 +25,8 @@ function App() {
         </Route>
         <Route exact path="/Login">
           <Login/>
+        </Route><Route exact path="/Review">
+          <About/>
         </Route>
       </Switch>  
     </Router>
