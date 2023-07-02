@@ -139,8 +139,8 @@ def callback():
     access_token = response_data["access_token"]
 
     # Request to spotify api
-    podcast_id = "43S3zJKHzTnTkq0gc9CbIB"
-    url = f"https://api.spotify.com/v1/albums/{podcast_id}"
+    podcast_id = "1qrNNhke5i6Gyed93DwLzv"
+    url = f"https://api.spotify.com/v1/playlists/{podcast_id}"
     headers = {
         "Authorization": f"Bearer {access_token}"
     }

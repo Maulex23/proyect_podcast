@@ -1,36 +1,11 @@
 import { useState } from "react";
 import "./login.css";
 import Asset_1 from "../home/images/Asset_2.jpg"
-import spotify from "../home/images/spotify.png"
+
+
 
 
 const Login = () => {
-
-  return (
-  
-    <div>
-
-    <body>
-    
-        <form className="box">
-          
-          <h2>Iniciar Sesión</h2>
-          <input placeholder="Email" type="text" />
-          <input placeholder="Clave" type="password"/>
-          <input value="Iniciar Sesión" type="submit"/>
-          <i class="bi bi-spotify"></i>
-          <a className='button'><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" color="LawnGreen" fill="currentColor" class="bi bi-spotify" viewBox="0 0 16 16">
-  <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.669 11.538a.498.498 0 0 1-.686.165c-1.879-1.147-4.243-1.407-7.028-.77a.499.499 0 0 1-.222-.973c3.048-.696 5.662-.397 7.77.892a.5.5 0 0 1 .166.686zm.979-2.178a.624.624 0 0 1-.858.205c-2.15-1.321-5.428-1.704-7.972-.932a.625.625 0 0 1-.362-1.194c2.905-.881 6.517-.454 8.986 1.063a.624.624 0 0 1 .206.858zm.084-2.268C10.154 5.56 5.9 5.419 3.438 6.166a.748.748 0 1 1-.434-1.432c2.825-.857 7.523-.692 10.492 1.07a.747.747 0 1 1-.764 1.288z"/>
-</svg></a>
-        </form>
-    </body>
-    <img src={Asset_1} className='background' alt=''/> 
-    
-    </div>
-  
-    
-  )
-}
 
   const [email, setEmail] = useState({ email: null });
   const [isAuth, setIsAuth] = useState(false);
@@ -51,19 +26,32 @@ const Login = () => {
   };
 
   return (
+  
+    <div>
+    
     <body>
-      <form className="box" onSubmit={handleSubmit}>
-        <h2>Iniciar Sesión</h2>
-        <input
-          placeholder="Email"
-          type="email"
-          onChange={(e) => setEmail({ email: e.target.value })}
-        />
-        <input value="Iniciar Sesión" type="submit" />
-        <a href="/Registro">Registrarse</a>
-      </form>
+    
+        <form className="box">
+          
+         
+          <h2>Iniciar Sesión</h2>
+          <input placeholder="Email" type="email" />
+          <input placeholder="Clave" type="password" onChange={(e) => setEmail({ email: e.target.value })}/>
+          <input value="Iniciar Sesión" type="submit"/>
+          <i class="bi bi-spotify"></i>
+          <a className='button'><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" color="LawnGreen" fill="currentColor" class="bi bi-spotify" viewBox="0 0 16 16">
+  <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.669 11.538a.498.498 0 0 1-.686.165c-1.879-1.147-4.243-1.407-7.028-.77a.499.499 0 0 1-.222-.973c3.048-.696 5.662-.397 7.77.892a.5.5 0 0 1 .166.686zm.979-2.178a.624.624 0 0 1-.858.205c-2.15-1.321-5.428-1.704-7.972-.932a.625.625 0 0 1-.362-1.194c2.905-.881 6.517-.454 8.986 1.063a.624.624 0 0 1 .206.858zm.084-2.268C10.154 5.56 5.9 5.419 3.438 6.166a.748.748 0 1 1-.434-1.432c2.825-.857 7.523-.692 10.492 1.07a.747.747 0 1 1-.764 1.288z"/>
+</svg></a>
+        </form>
     </body>
+    <img src={Asset_1} className='background' alt=''/> 
+    
+    
+    </div>
+  
+    
   );
+};
 
 
 export default Login;

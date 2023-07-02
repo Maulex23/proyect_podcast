@@ -24,6 +24,7 @@
 }
 
 body {
+<<<<<<< HEAD
   margin: 0;
   color: #fff;
   font-family: sans-serif;
@@ -234,3 +235,24 @@ body {
 #t-5:checked ~ .testimonials label[for="t-5"] {
   z-index: 4;
 }
+=======
+  min-height: 100vh;
+  display: grid;
+  /* place-items: top; */
+  background-color: #000000;
+  color: #fff;
+  font-family: "Inter", "DM Sans", Arial, sans-serif;
+}
+
+
+.wrapper {
+  width: 100%;
+  padding-top: 20px;
+}
+
+
+h4 {
+  width: 90%;
+  margin: 0px auto;
+}
+>>>>>>> b2daf73e285752719f71f3bd37cb56fba8fcf347

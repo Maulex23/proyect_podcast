@@ -1,35 +1,14 @@
-<<<<<<< HEAD
-import React, {useEffect} from 'react'
-import Asset_1 from "../home/images/Asset_2.jpg"
 
-const Registro = () => {
-  
-    return (
-    
-    <div>
-    <body>
-        <form class="box">
-          
-          <h2>Registro</h2>
-          <input placeholder="Email" type="text" />
-          <input placeholder="Clave" type="password"/>
-          <input value="Suscribirte" type="submit"/>
-        </form>
-    </body>
-    <img src={Asset_1} className='background' alt=''/>  
-    </div>  
-            
-    )
-}
-=======
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import Asset_1 from "../home/images/Asset_2.jpg"
+
 
 const Registro = () => {
   const [email, setEmail] = useState(null);
   const [name, setName] = useState(null);
   const history = useHistory();
->>>>>>> 1b1cd1a71ffb6b68535ca34f2319cca5d65b9aca
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,9 +34,11 @@ const Registro = () => {
   };
 
   return (
+    <div>
+    
     <body>
       <form class="box" onSubmit={handleSubmit}>
-        <h3>Registro</h3>
+        <h2>Registro</h2>
         <input
           placeholder="Email"
           type="email"
@@ -69,9 +50,11 @@ const Registro = () => {
           onChange={(e) => setName(e.target.value)}
         />
         <input value="Suscribirte" type="submit" />
-        <a href="/Login">Iniciar Sesión</a>
+        <a href="/Login" style={{ position: "relative", left:"0"}}>Iniciar Sesión</a>
       </form>
     </body>
+    <img src={Asset_1} className='background' alt=''/> 
+    </div>
   );
 };
 
