@@ -80,4 +80,3 @@ export default class AutoPlay extends Component {
   }
 }
 
-// export default About
