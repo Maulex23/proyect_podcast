@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./login.css";
-import Asset_1 from "../home/images/Asset_2.jpg"
 
 
 
@@ -36,7 +35,7 @@ const Login = () => {
          
           <h2>Iniciar Sesión</h2>
           <input placeholder="Email" type="email" />
-          <input placeholder="Clave" type="password" onChange={(e) => setEmail({ email: e.target.value })}/>
+          <input placeholder="Nombre" type="text" onChange={(e) => setEmail({ email: e.target.value })}/>
           <input value="Iniciar Sesión" type="submit"/>
           <i class="bi bi-spotify"></i>
           <a className='button'><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" color="LawnGreen" fill="currentColor" class="bi bi-spotify" viewBox="0 0 16 16">
@@ -44,7 +43,7 @@ const Login = () => {
 </svg></a>
         </form>
     </body>
-    <img src={Asset_1} className='background' alt=''/> 
+    
     
     
     </div>

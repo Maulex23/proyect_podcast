@@ -53,7 +53,7 @@ const Registro = () => {
         <a href="/Login" style={{ position: "relative", left:"0"}}>Iniciar Sesión</a>
       </form>
     </body>
-    <img src={Asset_1} className='background' alt=''/> 
+    
     </div>
   );
 };

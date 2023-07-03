@@ -6,9 +6,9 @@ import Home from './components/home/Home'
 import Registro from './components/Registro/Registro'
 import About from './components/review/Review'
 import Login from './components/login/Login'
-
 // import { Router, Switch } from 'react-router-dom/cjs/react-router-dom.min'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 
 
 
@@ -20,6 +20,8 @@ function App() {
         <Route exact path="/" >
           <Header/>
           <Home/>
+          
+          
           
         </Route>  
         <Route exact path="/Registro">
