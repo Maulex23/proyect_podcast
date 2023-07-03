@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
-import "./about.css";
+import "./review.css";
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import review1 from "../home/images/review_2.png"
+import review2 from "../home/images/review_1.png"
+import review3 from "../home/images/review_3.png"
+import review4 from "../home/images/review_4.png"
+
+
 
 // import TextCarousel from "../TextCarousel/TextCarousel"
 
@@ -39,41 +45,55 @@ export default class AutoPlay extends Component {
     const settings = {
       dots: true,
       infinite: true,
-      slidesToShow: 3,
+      slidesToShow: 2,
       slidesToScroll: 1,
       autoplay: true,
-      speed: 2000,
-      autoplaySpeed: 3000,
+      speed: 1500,
+      autoplaySpeed: 1500,
       cssEase: "linear"
+
+      
     };
     return (
       <div>
-        <h2>About</h2>
+        <h3>Testimonios</h3>
+        
         <Slider {...settings}>
-          <div className='wrapper'>
-            <h3>1</h3>
-            <h4>"Desde que empecé a usar el sistema para solicitar podcast, he descubierto tantos nuevos programas increíbles. ¡Nunca había estado tan emocionado por escuchar cada nuevo episodio!" - Juan</h4>
+          <div className='review-container'>
+            <div className='wrapper'>
+              <img src={review1} alt="" className='card_images' />
+              <h4 className='"name-review"'>Enzo Zamora</h4>
+              <h5>Project Manager</h5>
+              <p class="card-text">"Desde que empecé a usar el sistema para solicitar podcast, he descubierto tantos nuevos programas increíbles. ¡Nunca había estado tan emocionado por escuchar cada nuevo episodio!"</p>
+            </div>
           </div>
-          <div className='wrapper'>
-            <h3>2</h3>
-            <h4>"Solía pasar horas buscando nuevos podcasts para escuchar, pero con este sistema, todo lo que tengo que hacer es hacer clic en un botón y lo tengo todo al alcance de mi mano. ¡Es genial!" - María</h4>
+          <div className='review-container'>
+            <div className='wrapper'>
+              <img src={review2} alt="" className='card_images' />
+              <h4 className='"name-review"'>Maria Muñoz</h4>
+              <h5>Engineer</h5>
+              <p class="card-text">"Solía pasar horas buscando nuevos podcasts para escuchar, pero con este sistema, todo lo que tengo que hacer es hacer clic en un botón y lo tengo todo al alcance de mi mano. ¡Es genial!"</p>
+            </div>
           </div>
-          <div className='wrapper'>
-            <h3>3</h3>
-            <h4>"Me encanta la facilidad con la que puedo solicitar nuevos episodios de mis podcasts favoritos. Ahora no tengo que esperar semanas para escuchar nuevas actualizaciones, ¡y puedo mantenerme actualizado con todos mis programas de forma regular!" - Carlos</h4>
+          <div className='review-container'>
+            <div className='wrapper'>
+              <img src={review3} alt="" className='card_images' />
+              <h4 className='"name-review"'>Roberto Moreno</h4>
+              <h5>CEO Revaluarte</h5>
+              <p class="card-text">"Como alguien que siempre está en movimiento, este sistema ha sido un salvavidas para mí. Ahora puedo solicitar y escuchar mis podcasts favoritos en cualquier lugar y en cualquier momento, desde mi teléfono o desde mi computadora. ¡No puedo imaginar mi vida sin él!"</p>
+            </div>
           </div>
-          <div className='wrapper'>
-            <h3>4</h3>
-            <h4>"Antes de utilizar este sistema, me resultaba difícil encontrar nuevos podcasts que me gustaran. Pero desde que lo descubrí, he encontrado tantos programas interesantes y emocionantes que nunca habría encontrado de otra manera." - Ana</h4>
+          <div className='review-container'>
+            <div className='wrapper'>
+              <img src={review4} alt="" className='card_images' />
+              <h4 className='"name-review"'>Luis Diaz</h4>
+              <h5>Chef ejecutivo</h5>
+              <p class="card-text">"Este sistema ha cambiado completamente la forma en que escucho podcasts. Ahora puedo personalizar completamente mi experiencia de escucha y nunca me pierdo un episodio importante."</p>
+            </div>
           </div>
-          <div className='wrapper'>
-            <h3>5</h3>
-            <h4>"Este sistema ha cambiado completamente la forma en que escucho podcasts. Ahora puedo personalizar completamente mi experiencia de escucha y nunca me pierdo un episodio importante." - Luisa</h4>
-          </div>
-          <div className='wrapper'>
-            <h3>6</h3>
-            <h4>"Como alguien que siempre está en movimiento, este sistema ha sido un salvavidas para mí. Ahora puedo solicitar y escuchar mis podcasts favoritos en cualquier lugar y en cualquier momento, desde mi teléfono o desde mi computadora. ¡No puedo imaginar mi vida sin él!" - Roberto</h4>
-          </div>
+        
+          
+          
         </Slider>
       </div>
     );
