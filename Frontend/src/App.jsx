@@ -18,21 +18,19 @@ function App() {
     <Router>
       <Switch>
         <Route exact path="/" >
-          <Header/>
-          <Home/>
-          
-          
-          
-        </Route>  
+          <Header />
+          <Home />
+        </Route>
         <Route exact path="/Registro">
-          <Registro/>
+          <Registro />
         </Route>
         <Route exact path="/Login">
-          <Login/>
-        </Route><Route exact path="/Review">
-          <About/>
+          <Login />
         </Route>
-      </Switch>  
+        <Route exact path="/Review">
+          <About />
+        </Route>
+      </Switch>
     </Router>
   );
 }
