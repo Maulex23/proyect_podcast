@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/header/Header'
 import Home from './components/home/Home'
 import Registro from './components/Registro/Registro'
-import About from './components/review/Review'
+// import About from './components/review/Review'
 import Login from './components/login/Login'
 // import { Router, Switch } from 'react-router-dom/cjs/react-router-dom.min'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -18,15 +18,10 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" >
-        
+        <Route exact path="/" >        
           <Header/>
           <Home/>
-<<<<<<< HEAD
-
           <div className='review' id="reseñas" ><Review/></div>
-          
->>>>>>> b1bfcb6e90ec98409714af713bd6f70c6f4ee656
         </Route>  
         <Route exact path="/Registro">
           <Header/>
