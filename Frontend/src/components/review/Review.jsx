@@ -20,7 +20,7 @@ import review4 from "../home/images/review_4.png"
 //     slidesToShow: 1,
 //     slidesToScroll: 1
 //   };
-  
+
 //   const textItems = [
 //     'Texto 1',
 //     'Texto 2',
@@ -52,12 +52,12 @@ export default class AutoPlay extends Component {
       autoplaySpeed: 2000,
       cssEase: "linear"
 
-      
+
     };
     return (
       <div className='container-review'>
         <h3>Testimonios</h3>
-        
+
         <Slider {...settings}>
           <div className='review-container'>
             <div className='wrapper'>
@@ -91,9 +91,9 @@ export default class AutoPlay extends Component {
               <p class="card-text">"Este sistema ha cambiado completamente la forma en que escucho podcasts. Ahora puedo personalizar completamente mi experiencia de escucha y nunca me pierdo un episodio importante."</p>
             </div>
           </div>
-        
-          
-          
+
+
+
         </Slider>
       </div>
     );
