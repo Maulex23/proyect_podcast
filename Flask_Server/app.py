@@ -1,7 +1,7 @@
 import json
 import requests
 from flask_cors import CORS
-from flask import Flask, request, redirect, jsonify
+from flask import Flask, request, redirect, jsonify, make_response
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
@@ -111,17 +111,14 @@ def check_user():
         return jsonify({"status": False}), 404
 
 # Path to authenticate with Spotify API
-
-
 @app.route("/loginspotify")
 def loginspotify():
     scope = "user-library-read"
     auth_url = f"https://accounts.spotify.com/authorize?response_type=code&client_id={client_id}&scope={scope}&redirect_uri={redirect_uri}"
     return redirect(auth_url)
 
+
 # Path to handle authentication callback
-
-
 @app.route("/callback")
 def callback():
     # Spotify api token validation
@@ -136,9 +133,25 @@ def callback():
     }
     response = requests.post(auth_token_url, data=data)
     response_data = response.json()
-    access_token = response_data["access_token"]
 
-    # Request to spotify api
+
+    # Check if an access_token could be obtained
+    if "access_token" in response_data:
+        access_token = response_data["access_token"]
+
+        # Create a response and save the access_token in a cookie
+        resp = make_response(redirect("/podcast"))
+        resp.set_cookie("access_token", access_token)
+
+        return resp
+    else:
+        return "Error al obtener el token de acceso"
+
+
+# Path to get information about a specific podcast
+@app.route("/podcast")
+def podcast():
+    access_token = request.cookies.get("access_token")
     podcast_id = "1qrNNhke5i6Gyed93DwLzv"
     url = f"https://api.spotify.com/v1/playlists/{podcast_id}"
     headers = {
