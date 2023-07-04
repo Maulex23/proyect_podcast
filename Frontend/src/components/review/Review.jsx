@@ -47,15 +47,15 @@ export default class AutoPlay extends Component {
       infinite: true,
       slidesToShow: 2,
       slidesToScroll: 1,
-      autoplay: true,
-      speed: 1500,
-      autoplaySpeed: 1500,
+      autoplay: false,
+      speed: 2000,
+      autoplaySpeed: 2000,
       cssEase: "linear"
 
       
     };
     return (
-      <div>
+      <div className='container-review'>
         <h3>Testimonios</h3>
         
         <Slider {...settings}>

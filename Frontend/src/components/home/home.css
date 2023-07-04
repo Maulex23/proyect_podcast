@@ -19,6 +19,7 @@
 --fs: 60px;
 --ls: clamp(-1.75px, -0.25vw, -3.5px);
 
+
 }
 
 body {
@@ -33,7 +34,6 @@ color: #fff;
 font-family: "Inter", "DM Sans", Arial, sans-serif;
 
 
-overflow: hidden;
 }
 
 *,
@@ -45,14 +45,15 @@ box-sizing: border-box;
 
 .content {
 position: relative ;
-bottom: center;
-left: center;
+bottom: -260px;
+left: 0;
 padding: 0;
 text-align: center;
 display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
+margin-bottom: 500px;
 
 
 }
@@ -67,7 +68,6 @@ font-weight: 600;
 letter-spacing: var(--ls);
 overflow: hidden;
 background: var(--bg);
-margin: 0;
 align-items: center;
 justify-content: center;
 }
@@ -262,21 +262,18 @@ animation: aurora-border 6s ease-in-out infinite,
   }
 
 
-  .logo{
-    
-    position: relative;
-    top: -600px;
-    left:800px;
-    display: flexbox;
-    overflow: hidden; 
-    
-
-
-  
-  }
   
   .image {
     width: 270px;
     height: 200px;
   }
  
+  /* .review{
+    position: relative;
+
+    top: 30%;
+    right: 20%;
+    
+    height: 400px;
+    
+    } */
