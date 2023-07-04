@@ -19,16 +19,23 @@ function App() {
     <Router>
       <Switch>
         <Route exact path="/" >
+        
           <Header/>
           <Home/>
+<<<<<<< HEAD
+
+          <div className='review' id="reseñas" ><Review/></div>
+          
+>>>>>>> b1bfcb6e90ec98409714af713bd6f70c6f4ee656
         </Route>  
         <Route exact path="/Registro">
+          <Header/>
           <Registro/>
         </Route>
         <Route exact path="/Login">
+          <Header/>
           <Login/>
-        </Route><Route exact path="/Review">
-          <About/>
+
         </Route>
       </Switch>
     </Router>
