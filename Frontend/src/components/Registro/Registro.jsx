@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import Asset_1 from "../home/images/Asset_2.jpg"
+
 
 
 const Registro = () => {

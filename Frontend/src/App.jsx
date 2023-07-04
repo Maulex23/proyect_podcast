@@ -8,6 +8,7 @@ import About from './components/review/Review'
 import Login from './components/login/Login'
 // import { Router, Switch } from 'react-router-dom/cjs/react-router-dom.min'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Review from './components/review/Review';
 
 
 
@@ -25,6 +26,17 @@ function App() {
           <Registro />
         </Route>
         <Route exact path="/Login">
+          <Login />
+          <Header />
+          <Home />
+          <div className='review' id="reseñas" ><Review /></div>
+        </Route>
+        <Route exact path="/Registro">
+          <Header />
+          <Registro />
+        </Route>
+        <Route exact path="/Login">
+          <Header />
           <Login />
         </Route>
         <Route exact path="/Review">

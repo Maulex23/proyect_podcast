@@ -1,5 +1,6 @@
 import React from 'react';
 import "./home.css";
+import Review from '../review/Review';
 
 
 
@@ -23,11 +24,7 @@ const Home = () => {
           </h1>
           <p class="subtitle">Elabore su estilo y amplifique su voz con nuestras <br/> principales soluciones de marca de podcast</p>
           
-            <button type="button" class="home-button" onClick={handleRegistroClick}>Solicitar</button>
-          
-            
-
-            
+            <button type="button" class="home-button" onClick={handleRegistroClick}>Solicitar</button>           
         </div>
         
     );
