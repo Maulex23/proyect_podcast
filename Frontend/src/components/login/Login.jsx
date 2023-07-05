@@ -26,7 +26,7 @@ const Login = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    window.location.href = "http://127.0.0.1:5000/loginspotify";
+    window.location.href = "http://127.0.0.1:5000/spotify_login";
   };
 
   return (
