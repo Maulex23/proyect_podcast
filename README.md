@@ -65,12 +65,12 @@ Lista de tecnologías usadas en este proyecto:
 
 ## Colaboradores
 
-| [![Deborah Murati](https://avatars.githubusercontent.com/u/110952847?v=4)](https://github.com/Debymg) | [![Daniel Santaella](https://avatars.githubusercontent.com/u/93623498?v=4)]((https://github.com/danisan15)) |
+| [![Deborah Murati](https://avatars.githubusercontent.com/u/110952847?v=4)](https://github.com/Debymg) | [![Winderson Villarreal](https://avatars.githubusercontent.com/u/93623498?v=4)]((https://github.com/windersonvi)) |
 | ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | Deborah Murati                                                                                                       | Winderson Villarreal                                                                                       |
 | [@Deborah Murati](https://github.com/Debymg)                                                               | [@windersonvi](https://github.com/windersonvi)                                                            |
 
-| [![Winderson Villarreal](https://avatars.githubusercontent.com/u/105687762?v=4)](https://github.com/windersonvi) | [![Maulex23](https://avatars.githubusercontent.com/u/119123679?v=4)](https://github.com/Maulex23) |
+| [![Daniel Santaella](https://avatars.githubusercontent.com/u/105687762?v=4)](https://github.com/danisan15) | [![Maulex23](https://avatars.githubusercontent.com/u/119123679?v=4)](https://github.com/Maulex23) |
 | ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | Daniel Santaella                                                                                                       | Mauricio Calderón                                                                                       |
-| [@danisan15]((https://github.com/danisan15))                                                               | [@Maulex23](https://github.com/Maulex23)                                                            |
+| [@danisan15](https://github.com/danisan15)                                                               | [@Maulex23](https://github.com/Maulex23)                                                            |
