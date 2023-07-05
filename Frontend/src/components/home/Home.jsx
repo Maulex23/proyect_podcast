@@ -3,7 +3,6 @@ import "./home.css";
 import Review from '../review/Review';
 
 
-
 const Home = () => {
 
   const handleRegistroClick=()=> {
