@@ -1,10 +1,12 @@
 
-.image2 {
+.box p {
   position: relative;
-  bottom: -100px;
-  right:-63px;
-  width: 189px;
-  height: 140px;
+  text-align: center;
+  bottom: 30px;
+  font-family: "Raleway", sans-serif; 
+  font-weight: bold;
+  text-decoration: solid;
+  color: #33ff8c;
 }
 
 
@@ -12,11 +14,11 @@
   
   position: relative;
   box-sizing:border-box;
-  top: 180px  ;
-  left: 0px;
+  top: center  ;
+  left: center;
   overflow: hidden;
   width: 100%;
-  height: 100vh ;
+  height: 100% ;
   padding: 40px;
   background-color: transparent;
   font-family: "Raleway", sans-serif;
