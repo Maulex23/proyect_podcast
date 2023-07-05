@@ -63,7 +63,7 @@ box-sizing: border-box;
 width: 70%;
 margin:auto;
 position: relative;
-font-size: var(--fs);
+/* font-size: var(--fs); */
 font-weight: 600;
 letter-spacing: var(--ls);
 overflow: hidden;
