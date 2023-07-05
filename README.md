@@ -12,7 +12,7 @@ Lista de tecnologías usadas en este proyecto:
 * [React](https://example.com): Version 18.2.0
 
 ## Esturctura
-´´´´
+````
 /
 ├── Proyect_Podcast
 │   ├── Flask_Server
@@ -35,4 +35,4 @@ Lista de tecnologías usadas en este proyecto:
 │   │  ├── package.json
 │   │  └── vite.config.json
 │   └── README.md
-´´´´
+````
