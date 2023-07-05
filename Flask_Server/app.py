@@ -1,9 +1,10 @@
 import json
 import requests
 import smtplib
+import secrets
 from email.message import EmailMessage
 from flask_cors import CORS
-from flask import Flask, request, redirect, jsonify, make_response
+from flask import Flask, request, redirect, jsonify, make_response, session
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
@@ -18,9 +19,11 @@ with open('credentials.json') as f:
 api_key = credentials_json['private_key']
 
 # create a Spotify API client
-client_id = "adc21c51f9d843588ef2704daa1c67a4"
-client_secret = "a47d6c8b19cb4cea968cef42f7f282a5"
-redirect_uri = "http://127.0.0.1:5000/callback"
+app.secret_key = secrets.token_hex(16)
+spotify_client_id = '603239cd09774551bf57056a8130a1dd'
+spotify_client_secret = 'f57e597161b9439c8903d050998997f2'
+spotify_redirect_uri = 'http://127.0.0.1:5000/callback'
+playlist_id = '1qrNNhke5i6Gyed93DwLzv'
 
 
 # load the Service Account credentials from a JSON file
@@ -113,68 +116,103 @@ def check_user():
         return jsonify({"status": False}), 404
 
 # Path to authenticate with Spotify API
-@app.route("/loginspotify")
-def loginspotify():
-    scope = "user-library-read"
-    auth_url = f"https://accounts.spotify.com/authorize?response_type=code&client_id={client_id}&scope={scope}&redirect_uri={redirect_uri}"
-    return redirect(auth_url)
+@app.route('/spotify_login')
+def login():
+    # Redirect the user to the Spotify login page
+    auth_url = 'https://accounts.spotify.com/authorize'
+    params = {
+        'client_id': spotify_client_id,
+        'response_type': 'code',
+        'redirect_uri': spotify_redirect_uri,
+        'scope': 'user-read-email playlist-read-private'
+    }
+    auth_request = requests.Request('GET', auth_url, params=params).prepare()
+    return redirect(auth_request.url)
 
-
-# Path to handle authentication callback
-@app.route("/callback")
+@app.route('/callback')
 def callback():
-    # Spotify api token validation
-    code = request.args.get("code")
-    auth_token_url = "https://accounts.spotify.com/api/token"
+    # Exchange the authorization code for an access token
+    code = request.args.get('code')
+    token_url = 'https://accounts.spotify.com/api/token'
     data = {
-        "grant_type": "authorization_code",
-        "code": code,
-        "redirect_uri": redirect_uri,
-        "client_id": client_id,
-        "client_secret": client_secret
+        'grant_type': 'authorization_code',
+        'code': code,
+        'redirect_uri': spotify_redirect_uri,
+        'client_id': spotify_client_id,
+        'client_secret': spotify_client_secret
     }
-    response = requests.post(auth_token_url, data=data)
-    response_data = response.json()
-    
-    # Request to spotify api
-    access_token = response_data["access_token"]
-    podcast_id = "1qrNNhke5i6Gyed93DwLzv"
-    url = f"https://api.spotify.com/v1/playlists/{podcast_id}"
+    token_response = requests.post(token_url, data=data)
+    token_data = token_response.json()
+
+    # Store the access token in a cookie
+    access_token = token_data['access_token']
+    cookie_expiration = 60 * 60 * 24  # 1 day
+    response = make_response(redirect('/playlist'))
+    response.set_cookie('access_token', access_token, max_age=cookie_expiration)
+
+    return response
+
+@app.route('/playlist')
+def playlist():
+    # Check if the playlist data is already stored in a cookie
+    playlist_cookie = request.cookies.get('playlist')
+    if playlist_cookie:
+        # Delete the playlist cookie
+        response = make_response('Redirecting...')
+        response.delete_cookie('playlist')
+        # Redirect the user to the page with the playlist data in the cookie
+        redirect_script = '<script>setTimeout(function() { window.location.href = "http://127.0.0.1:5173"; }, 3000);</script>'
+        response.data += redirect_script.encode('utf-8')
+        response.headers['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5173'
+        return response
+
+    # Retrieve information about the specific playlist using the playlist ID
+    playlist_url = f'https://api.spotify.com/v1/playlists/{playlist_id}'
     headers = {
-        "Authorization": f"Bearer {access_token}"
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {request.cookies["access_token"]}'
+    }
+    playlist_response = requests.get(playlist_url, headers=headers)
+    playlist_data = playlist_response.json()
+
+    # Extract the relevant information from the playlist data
+    playlist = {
+        'name': playlist_data['name'],
+        'description': playlist_data['description'],
+        'image_url': playlist_data['images'][0]['url']
     }
 
+    # Retrieve the tracks in the playlist
+    tracks_url = f'https://api.spotify.com/v1/playlists/{playlist_id}/tracks'
+    tracks_response = requests.get(tracks_url, headers={'Authorization': f'Bearer {request.cookies["access_token"]}'})
+    tracks_data = tracks_response.json()
 
-    response = requests.get(url, headers=headers)
-    podcast_data = response.json()
-    return podcast_data
+    # Extract the first 4 tracks from the tracks data
+    tracks = []
+    for track in tracks_data['items'][:4]:
+        track_info = {
+            'name': track['track']['name'],
+            'artist': track['track']['artists'][0]['name'],
+            'album': track['track']['album']['name'],
+            'preview_url': track['track']['preview_url']
+        }
+        tracks.append(track_info)
 
-    # Check if an access_token could be obtained
-    #if "access_token" in response_data:
-        #access_token = response_data["access_token"]
+    # Add the tracks to the playlist dictionary
+    playlist['tracks'] = tracks
 
-        # Create a response and save the access_token in a cookie
-        #resp = make_response(redirect("/podcast"))
-        #resp.set_cookie("access_token", access_token)
+    # Store the playlist dictionary in a cookie
+    playlist_json = json.dumps(playlist)
+    cookie_expiration = 60 * 60 * 24  # 1 day
+    response = make_response('Redirecting...')
+    response.set_cookie('playlist', playlist_json, max_age=cookie_expiration)
 
-        #return resp
-    #else:
-    #    return "Error al obtener el token de acceso"
-
-
-# Path to get information about a specific podcast
-#app.route("/podcast")
-#def podcast():
-#    access_token = request.cookies.get("access_token")
-#    podcast_id = "1qrNNhke5i6Gyed93DwLzv"
-#    url = f"https://api.spotify.com/v1/playlists/{podcast_id}"
-#    headers = {
-#        "Authorization": f"Bearer {access_token}"
-#    }
-#    response = requests.get(url, headers=headers)
-#    podcast_data = response.json()
-#    return podcast_data
-
+    # Redirect the user to the page with the playlist data in the cookie
+    redirect_script = '<script>setTimeout(function() { window.location.href = "http://127.0.0.1:5173"; }, 3000);</script>'
+    response.data += redirect_script.encode('utf-8')
+    response.headers['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5173'
+    return response
 
 @app.route('/make_appointment', methods=['POST'])
 def make_appointment():
