@@ -1,5 +1,7 @@
 import json
 import requests
+import smtplib
+from email.message import EmailMessage
 from flask_cors import CORS
 from flask import Flask, request, redirect, jsonify, make_response
 from google.oauth2 import service_account
@@ -161,6 +163,42 @@ def podcast():
     podcast_data = response.json()
     return podcast_data
 
+
+@app.route('/make_appointment', methods=['POST'])
+def make_appointment():
+    try:
+        appointment = request.get_json()
+        email = appointment['email']
+        name = appointment['name']
+        date = appointment['date']
+    except KeyError as e:
+        return jsonify({'error': f"El objeto de cita no es válido: {e}"}), 400
+
+    # Create the email message
+    msg = EmailMessage()
+    msg.set_content(f"Querido {name},\n\nNos gustaría programar una cita contigo para el día {date}. Por favor, háznos saber si te funciona.\n\nAtentamente,\nTu Equipo de Programación de Citas")
+
+    # Set the sender and recipient email addresses
+    msg['From'] = 'proyect.podcast1@gmail.com'
+    msg['To'] = email
+
+    # Send the email using SMTP
+    try:
+        with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
+            smtp.starttls()
+            smtp.login('proyect.podcast1@gmail.com', 'gjwmbyuipbfikzqs')
+            if not smtp.verify(email):
+                return jsonify({'error': f"La dirección de correo electrónico {email} no es válida."}), 400
+            smtp.send_message(msg)
+    except smtplib.SMTPAuthenticationError:
+        return jsonify({'error': "Error de autenticación SMTP: verifica que tu correo electrónico y contraseña son correctos."}), 500
+    except smtplib.SMTPServerDisconnected:
+        return jsonify({'error': "Error de conexión SMTP: verifica que tu conexión a Internet es estable y que el servidor SMTP está disponible."}), 500
+    except smtplib.SMTPException as e:
+        return jsonify({'error': f"No se pudo enviar el correo electrónico: {e}"}), 500
+
+    # Return a response indicating that the email was sent
+    return jsonify({'message': f"Se envió un correo electrónico a {email} para programar una cita."}), 200
 
 if __name__ == "__main__":
     # start the Flask application
