@@ -1,4 +1,7 @@
 .subtitle {
+  position: relative;
+  align-items: center;
+  text-align: center;
   color: #ffff;
   font-family: "Raleway", sans-serif;
   font-weight: Light Roman;
@@ -28,7 +31,7 @@ min-height: 100vh;
 background-image: url("./images/blackground_2.jpg");
 background-repeat: no-repeat;
 background-position: center center;
-background-attachment: fixed;
+background-attachment:fixed;
 
 color: #fff;
 font-family: "Inter", "DM Sans", Arial, sans-serif;
@@ -45,7 +48,7 @@ box-sizing: border-box;
 
 .content {
 position: relative ;
-bottom: -260px;
+bottom: -220px;
 left: 0;
 padding: 0;
 text-align: center;
