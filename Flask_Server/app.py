@@ -135,33 +135,45 @@ def callback():
     }
     response = requests.post(auth_token_url, data=data)
     response_data = response.json()
-
-
-    # Check if an access_token could be obtained
-    if "access_token" in response_data:
-        access_token = response_data["access_token"]
-
-        # Create a response and save the access_token in a cookie
-        resp = make_response(redirect("/podcast"))
-        resp.set_cookie("access_token", access_token)
-
-        return resp
-    else:
-        return "Error al obtener el token de acceso"
-
-
-# Path to get information about a specific podcast
-@app.route("/podcast")
-def podcast():
-    access_token = request.cookies.get("access_token")
+    
+    # Request to spotify api
+    access_token = response_data["access_token"]
     podcast_id = "1qrNNhke5i6Gyed93DwLzv"
     url = f"https://api.spotify.com/v1/playlists/{podcast_id}"
     headers = {
         "Authorization": f"Bearer {access_token}"
     }
+
+
     response = requests.get(url, headers=headers)
     podcast_data = response.json()
     return podcast_data
+
+    # Check if an access_token could be obtained
+    #if "access_token" in response_data:
+        #access_token = response_data["access_token"]
+
+        # Create a response and save the access_token in a cookie
+        #resp = make_response(redirect("/podcast"))
+        #resp.set_cookie("access_token", access_token)
+
+        #return resp
+    #else:
+    #    return "Error al obtener el token de acceso"
+
+
+# Path to get information about a specific podcast
+#app.route("/podcast")
+#def podcast():
+#    access_token = request.cookies.get("access_token")
+#    podcast_id = "1qrNNhke5i6Gyed93DwLzv"
+#    url = f"https://api.spotify.com/v1/playlists/{podcast_id}"
+#    headers = {
+#        "Authorization": f"Bearer {access_token}"
+#    }
+#    response = requests.get(url, headers=headers)
+#    podcast_data = response.json()
+#    return podcast_data
 
 
 @app.route('/make_appointment', methods=['POST'])
