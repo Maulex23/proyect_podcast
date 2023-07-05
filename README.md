@@ -4,15 +4,15 @@
 
 <br/>
 
-## Technologies
+## Tecnologías
 ***
-A list of technologies used within the project:
-* [Python ](https://www.python.org/): Version 3.11 
+Lista de tecnologías usadas en este proyecto:
+* [Python](https://www.python.org/): Version 3.11 
 * [ViteJS](https://vitejs.dev): Version 4.3.9
 * [React](https://example.com): Version 18.2.0
 
-
-
+## Esturctura
+´´´´
 /
 ├── Proyect_Podcast
 │   ├── Flask_Server
@@ -35,3 +35,4 @@ A list of technologies used within the project:
 │   │  ├── package.json
 │   │  └── vite.config.json
 │   └── README.md
+´´´´
