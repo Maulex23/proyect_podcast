@@ -204,13 +204,14 @@ def playlist():
 
     # Store the playlist dictionary in a cookie
     playlist_json = json.dumps(playlist)
+    print(playlist_json)
     cookie_expiration = 60 * 60 * 24  # 1 day
     response = make_response('Redirecting...')
     response.set_cookie('playlist', playlist_json, max_age=cookie_expiration)
 
     # Redirect the user to the page with the playlist data in the cookie
     redirect_script = '<script>setTimeout(function() { window.location.href = "http://127.0.0.1:5173"; }, 3000);</script>'
-    response.data += redirect_script.encode('utf-8')
+    # response.data += redirect_script.encode('utf-8')
     response.headers['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5173'
     return response
 
